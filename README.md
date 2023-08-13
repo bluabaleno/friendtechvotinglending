@@ -6,23 +6,18 @@ Changes Made
 
 1. Added a new mapping sharesAllowance:
 
-'''
 // SharesSubject => (Owner => (Spender => Allowance))
 mapping(address => mapping(address => mapping(address => uint256))) public sharesAllowance;
-'''
 
 2. Added a new function approve:
 
-'''
 function approve(address sharesSubject, address spender, uint256 amount) public {
     require(sharesBalance[sharesSubject][msg.sender] >= amount, "Insufficient shares");
     sharesAllowance[sharesSubject][msg.sender][spender] = amount;
 }
-'''
 
 3. Added a new function transferFrom:
 
-'''
 function transferFrom(address sharesSubject, address from, address to, uint256 amount) public payable {
     require(sharesBalance[sharesSubject][from] >= amount, "Insufficient shares");
     require(sharesAllowance[sharesSubject][from][msg.sender] >= amount, "Not approved");
@@ -30,7 +25,6 @@ function transferFrom(address sharesSubject, address from, address to, uint256 a
     sharesBalance[sharesSubject][to] += amount;
     sharesAllowance[sharesSubject][from][msg.sender] -= amount;
 }
-'''
 
 Issues Encountered
 
